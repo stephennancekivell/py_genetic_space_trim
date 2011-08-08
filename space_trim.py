@@ -5,7 +5,7 @@
 import sys,random,Levenshtein
 
 POP_SIZE = 100
-GENERATIONS = 10
+GENERATIONS = 100
 
 def wordCount(line):
     # count 'words' with spaces following them.
@@ -31,8 +31,8 @@ def wcTest():
 wcTest()
 
 def fitness(line):
-    score = wordCount(line)*3
-    score += (len(line)-line.count(" "))*2
+    score = wordCount(line)*30 #TODO these should be scaled up by the length of the input line that doesnt change.
+    score += (len(line)-line.count(" "))*20
     score -= line.count(" ")
     return score
 
@@ -96,13 +96,12 @@ def evolve(line):
             f = max(random.choice(p),random.choice(p))
             m = max(random.choice(p),random.choice(p))
             c = mate(m[1],f[1])
-            if random.randint(0,100) < 10:
+            if random.randint(0,100) < 30:
                 c = mutate(c,line)
             p2.append((fitness(lineFrom(c,line)),c))
         p = p2
         p.sort()
         p.reverse()
-        #print g,p[0]
 
     return lineFrom(p[0][1],line)
 
@@ -110,4 +109,5 @@ def correct(line):
     return ' '.join(line.split())
 
 for line in map(str.rstrip, sys.stdin.readlines()):
-    print "'%s' => '%s' should be '%s'" % (line,evolve(line),correct(line))
+    e = evolve(line)
+    print "%s: '%s' => '%s'" % ('correct' if e==correct(line) else 'wrong', line,e)
