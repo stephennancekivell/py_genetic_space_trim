@@ -1,8 +1,0 @@
-given a input with duplicate spaces in it. Remove them so only one space is between each word
-
-
-ideas.
-
-perfect target.
-
-word_with_space count.
