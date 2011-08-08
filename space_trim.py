@@ -53,9 +53,11 @@ def fitnessTest():
 fitnessTest()
 
 def mutate(organism,line):
-    x = random.randint(0,len(line)-1)
-    if x not in organism:
-        organism.append(x)
+    choices = range(len(line)) # only return a deletion not in organism
+    for c in organism:
+        choices.remove(c)
+    if len(choices)==0: return organism
+    organism.append(random.choice(choices))
     return organism
 
 def mate(f,m):
